@@ -20,10 +20,8 @@ ui.arrCheckboxes.forEach((checkbox, index) => {
 });
 
 (function appInit() {
-	const arrCheckboxes = Array.from(ui.arrCheckboxes);
-
 	params.forEach((paramItem) => {
-		const findEl = arrCheckboxes.find(
+		const findEl = stateCheckboxes.find(
 			(checkbox) => checkbox.id === paramItem
 		);
 
