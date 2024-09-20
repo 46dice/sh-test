@@ -1,26 +1,34 @@
 import ui from './src/ui';
+import render from './src/render';
 import changeUrlWithParams from './src/url-utils/changeUrlWithParams';
-import updateUrlParams from './src/url-utils/updateUrlParams';
+import updateCheckedIdsInURL from './src/url-utils/updateCheckedIdsInURL';
 
 const params = new URLSearchParams(window.location.search);
 
-const handleClickOnCheckbox = (checkbox, ix, event) => {
-	updateUrlParams(params, event, ix, checkbox);
+const stateCheckboxes = Array.from(ui.arrCheckboxes);
+
+const handleClickOnCheckbox = (event, index) => {
+	updateCheckedIdsInURL(params, event, index);
 	changeUrlWithParams(params);
+	render(ui.list, stateCheckboxes);
 };
 
-ui.arrCheckboxes.forEach((checkbox, ix) => {
+ui.arrCheckboxes.forEach((checkbox, index) => {
 	checkbox.addEventListener('click', (event) => {
-		handleClickOnCheckbox(checkbox, ix, event);
+		handleClickOnCheckbox(event, index);
 	});
 });
 
 (function appInit() {
+	const arrCheckboxes = Array.from(ui.arrCheckboxes);
+
 	params.forEach((paramItem) => {
-		ui.arrCheckboxes.forEach((checkbox) => {
-			if (paramItem === checkbox.id) {
-				checkbox.checked = true;
-			}
-		});
+		const findEl = arrCheckboxes.find(
+			(checkbox) => checkbox.id === paramItem
+		);
+
+		if (findEl) {
+			findEl.checked = true;
+		}
 	});
 })();
