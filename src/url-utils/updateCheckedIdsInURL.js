@@ -1,10 +1,9 @@
-const updateCheckedIdsInURL = (params, event, index) => {
+const updateCheckedIdsInURL = (params, event, key) => {
 	const { target } = event;
-
 	if (target.checked) {
-		params.append(index, target.id);
+		params.append(key, target.id);
 	} else {
-		params.delete(index);
+		params.delete(key);
 	}
 };
 

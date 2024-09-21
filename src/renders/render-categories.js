@@ -1,13 +1,16 @@
-const render = (container, data) => {
+const renderCategories = (container, data) => {
+	container.innerHTML = '';
 	data.forEach((elem) => {
 		const li = document.createElement('li');
 		li.innerHTML = `
 					<label for="${elem.id}">
-						<span>${elem.id}</span>
+						<span>${elem.title}</span>
 							<input
 								type="checkbox"
 								id="${elem.id}"
 								class="checkbox"
+								${elem.isChecked && 'checked'}
+								data-title=${elem.title}
 							/>
 					</label>
 		`;
@@ -15,4 +18,4 @@ const render = (container, data) => {
 	});
 };
 
-export default render;
+export default renderCategories;

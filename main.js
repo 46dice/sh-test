@@ -1,32 +1,46 @@
 import ui from './src/ui';
-import render from './src/render';
 import changeUrlWithParams from './src/url-utils/changeUrlWithParams';
 import updateCheckedIdsInURL from './src/url-utils/updateCheckedIdsInURL';
+import categories from './src/categories.data';
+import renderCategories from './src/renders/render-categories';
+import changeStateCheckboxIsChecked from './src/state/changeStateIsChecked';
 
 const params = new URLSearchParams(window.location.search);
 
-const stateCheckboxes = Array.from(ui.arrCheckboxes);
+let initialCategories = [...categories];
 
-const handleClickOnCheckbox = (event, index) => {
-	updateCheckedIdsInURL(params, event, index);
+const handleClickOnCheckbox = (event, key) => {
+	updateCheckedIdsInURL(params, event, key);
 	changeUrlWithParams(params);
-	render(ui.list, stateCheckboxes);
+
+	initialCategories = changeStateCheckboxIsChecked(
+		initialCategories,
+		Number(event.target.id)
+	);
+
+	renderCategories(ui.list, initialCategories);
 };
 
-ui.arrCheckboxes.forEach((checkbox, index) => {
-	checkbox.addEventListener('click', (event) => {
-		handleClickOnCheckbox(event, index);
-	});
+ui.list.addEventListener('click', (event) => {
+	if (event.target.matches('input')) {
+		const key = event.target.getAttribute('data-title');
+		handleClickOnCheckbox(event, key);
+	}
 });
 
 (function appInit() {
+	renderCategories(ui.list, categories);
 	params.forEach((paramItem) => {
-		const findEl = stateCheckboxes.find(
-			(checkbox) => checkbox.id === paramItem
+		const urlParamFinded = initialCategories.find(
+			(checkbox) => checkbox.id === Number(paramItem)
 		);
+		//TODO
+		initialCategories.forEach((category) => {
+			if (+urlParamFinded.id === +category.id) {
+				console.log(category.id);
 
-		if (findEl) {
-			findEl.checked = true;
-		}
+				category = { ...category, isChecked: true };
+			}
+		});
 	});
 })();
