@@ -1,0 +1,12 @@
+(function(){const c=document.createElement("link").relList;if(c&&c.supports&&c.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const r of e)if(r.type==="childList")for(const a of r.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&s(a)}).observe(document,{childList:!0,subtree:!0});function i(e){const r={};return e.integrity&&(r.integrity=e.integrity),e.referrerPolicy&&(r.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?r.credentials="include":e.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function s(e){if(e.ep)return;e.ep=!0;const r=i(e);fetch(e.href,r)}})();const o={arrCheckboxes:document.querySelectorAll(".checkbox"),list:document.querySelector(".main-list"),listChecked:document.querySelector(".checked-list")},f=t=>{window.history.replaceState({},"",`${window.location.pathname}?${t.toString()}`)},p=(t,c,i)=>{const{target:s}=c;s.checked?t.append(i,s.id):t.delete(i)},h=[{id:1,title:"cross",isChecked:!1},{id:2,title:"milk",isChecked:!1},{id:3,title:"dyson",isChecked:!1},{id:4,title:"monitors",isChecked:!1},{id:5,title:"keyboards",isChecked:!1},{id:6,title:"mice",isChecked:!1},{id:7,title:"laptops",isChecked:!1},{id:9,title:"scanners",isChecked:!1},{id:10,title:"speakers",isChecked:!1},{id:11,title:"printers",isChecked:!1},{id:12,title:"webcams",isChecked:!1},{id:13,title:"routers",isChecked:!1},{id:14,title:"modems",isChecked:!1},{id:15,title:"switches",isChecked:!1}],l=(t,c)=>{t.innerHTML="",c.forEach(i=>{const s=document.createElement("li");s.innerHTML=`
+					<label for="${i.id}">
+						<span>${i.title}</span>
+							<input
+								type="checkbox"
+								id="${i.id}"
+								class="checkbox"
+								${i.isChecked&&"checked"}
+								data-title=${i.title}
+							/>
+					</label>
+		`,t.append(s)})},k=(t,c)=>t.map(s=>c===s.id?{...s,isChecked:!s.isChecked}:s),C=(t,c,i)=>{let s=t;const e=c.find(r=>r.id===i);return e.isChecked?t.push(e):s=t.filter(r=>r.id!==i),s};l(o.list,h);const u=new URLSearchParams(window.location.search);let d=[...h],n=[];const m=(t,c)=>{const{id:i}=t.target;p(u,t,c),f(u),d=k(d,+i),n=C(n,d,+i),l(o.list,d),l(o.listChecked,n)};o.list.addEventListener("click",t=>{if(t.target.matches("input")){const c=t.target.getAttribute("data-title");m(t,c)}});(function(){const c=d.reduce((i,s)=>(i[s.id]=s,i),{});u.forEach(i=>{const s=d.find(e=>e.id===Number(i));if(s){const e=c[s.id];e.isChecked=!0,n.push(e)}}),l(o.list,d),l(o.listChecked,n)})();
