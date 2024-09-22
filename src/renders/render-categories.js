@@ -1,4 +1,4 @@
-const renderCategories = (container, data) => {
+const render = (container, data) => {
 	container.innerHTML = '';
 	data.forEach((elem) => {
 		const li = document.createElement('li');
@@ -18,4 +18,4 @@ const renderCategories = (container, data) => {
 	});
 };
 
-export default renderCategories;
+export default render;

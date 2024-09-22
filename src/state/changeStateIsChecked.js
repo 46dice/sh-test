@@ -1,4 +1,4 @@
-const changeStateCheckboxIsChecked = (data, id) => {
+const changeStatusInCheckbox = (data, id) => {
 	const uppdatedCategories = data.map((category) => {
 		if (id === category.id) {
 			return {
@@ -11,4 +11,4 @@ const changeStateCheckboxIsChecked = (data, id) => {
 	return uppdatedCategories;
 };
 
-export default changeStateCheckboxIsChecked;
+export default changeStatusInCheckbox;

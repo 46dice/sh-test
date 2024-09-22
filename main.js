@@ -2,23 +2,31 @@ import ui from './src/ui';
 import changeUrlWithParams from './src/url-utils/changeUrlWithParams';
 import updateCheckedIdsInURL from './src/url-utils/updateCheckedIdsInURL';
 import categories from './src/categories.data';
-import renderCategories from './src/renders/render-categories';
-import changeStateCheckboxIsChecked from './src/state/changeStateIsChecked';
+import render from './src/renders/render-categories';
+import changeStatusInCheckbox from './src/state/changeStateIsChecked';
+import addCategoryInSelectedState from './src/state/addCategoryInSelectedState';
+
+render(ui.list, categories);
 
 const params = new URLSearchParams(window.location.search);
 
 let initialCategories = [...categories];
+let selectedCategories = [];
 
 const handleClickOnCheckbox = (event, key) => {
+	const { id } = event.target;
 	updateCheckedIdsInURL(params, event, key);
 	changeUrlWithParams(params);
 
-	initialCategories = changeStateCheckboxIsChecked(
+	initialCategories = changeStatusInCheckbox(initialCategories, +id);
+	selectedCategories = addCategoryInSelectedState(
+		selectedCategories,
 		initialCategories,
-		Number(event.target.id)
+		+id
 	);
 
-	renderCategories(ui.list, initialCategories);
+	render(ui.list, initialCategories);
+	render(ui.listChecked, selectedCategories);
 };
 
 ui.list.addEventListener('click', (event) => {
@@ -29,18 +37,23 @@ ui.list.addEventListener('click', (event) => {
 });
 
 (function appInit() {
-	renderCategories(ui.list, categories);
+	const categoriesObj = initialCategories.reduce((acc, category) => {
+		acc[category.id] = category;
+		return acc;
+	}, {});
+
 	params.forEach((paramItem) => {
 		const urlParamFinded = initialCategories.find(
 			(checkbox) => checkbox.id === Number(paramItem)
 		);
-		//TODO
-		initialCategories.forEach((category) => {
-			if (+urlParamFinded.id === +category.id) {
-				console.log(category.id);
 
-				category = { ...category, isChecked: true };
-			}
-		});
+		if (urlParamFinded) {
+			const category = categoriesObj[urlParamFinded.id];
+			category.isChecked = true;
+			selectedCategories.push(category);
+		}
 	});
+
+	render(ui.list, initialCategories);
+	render(ui.listChecked, selectedCategories);
 })();
