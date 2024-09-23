@@ -2,9 +2,9 @@ import ui from './src/ui/ui';
 import changeUrlWithParams from './src/url-utils/changeUrlWithParams';
 import updateCheckedIdsInURL from './src/url-utils/updateCheckedIdsInURL';
 import categories from './src/categories.data';
-import renderList from './src/renders/render-list';
-import changeStatusInCheckbox from './src/state/changeStatusInCheckbox';
-import addCategoryInSelectedState from './src/state/addCategoryInSelectedState';
+import renderList from './src/renders/renderList';
+import changeStatusInCheckbox from './src/actions-state/changeStatusInCheckbox';
+import addCategoryInSelectedState from './src/actions-state/addCategoryInSelectedState';
 
 renderList(ui.list, categories);
 
