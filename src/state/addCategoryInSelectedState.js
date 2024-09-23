@@ -3,20 +3,19 @@ const addCategoryInSelectedState = (
 	initialCategories,
 	currentId
 ) => {
-	let selectedCat = selectedCategories;
+	const clonedSelectedCategories = structuredClone(selectedCategories);
+
 	const currentCategory = initialCategories.find(
 		(category) => category.id === currentId
 	);
 
 	if (currentCategory.isChecked) {
-		selectedCategories.push(currentCategory);
-	} else {
-		selectedCat = selectedCategories.filter(
-			(category) => category.id !== currentId
-		);
+		return [...clonedSelectedCategories, currentCategory];
 	}
 
-	return selectedCat;
+	return clonedSelectedCategories.filter(
+		(category) => category.id !== currentId
+	);
 };
 
 export default addCategoryInSelectedState;

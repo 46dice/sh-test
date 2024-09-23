@@ -1,4 +1,4 @@
-const render = (container, data) => {
+const renderList = (container, data) => {
 	container.innerHTML = '';
 	data.forEach((elem) => {
 		const li = document.createElement('li');
@@ -18,4 +18,4 @@ const render = (container, data) => {
 	});
 };
 
-export default render;
+export default renderList;

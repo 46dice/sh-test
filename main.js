@@ -1,16 +1,16 @@
-import ui from './src/ui';
+import ui from './src/ui/ui';
 import changeUrlWithParams from './src/url-utils/changeUrlWithParams';
 import updateCheckedIdsInURL from './src/url-utils/updateCheckedIdsInURL';
 import categories from './src/categories.data';
-import render from './src/renders/render-categories';
-import changeStatusInCheckbox from './src/state/changeStateIsChecked';
+import renderList from './src/renders/render-list';
+import changeStatusInCheckbox from './src/state/changeStatusInCheckbox';
 import addCategoryInSelectedState from './src/state/addCategoryInSelectedState';
 
-render(ui.list, categories);
+renderList(ui.list, categories);
 
 const params = new URLSearchParams(window.location.search);
 
-let initialCategories = [...categories];
+let initialCategories = structuredClone(categories);
 let selectedCategories = [];
 
 const handleClickOnCheckbox = (event, key) => {
@@ -18,15 +18,15 @@ const handleClickOnCheckbox = (event, key) => {
 	updateCheckedIdsInURL(params, event, key);
 	changeUrlWithParams(params);
 
-	initialCategories = changeStatusInCheckbox(initialCategories, +id);
+	initialCategories = changeStatusInCheckbox(initialCategories, Number(id));
 	selectedCategories = addCategoryInSelectedState(
 		selectedCategories,
 		initialCategories,
-		+id
+		Number(id)
 	);
 
-	render(ui.list, initialCategories);
-	render(ui.listChecked, selectedCategories);
+	renderList(ui.list, initialCategories);
+	renderList(ui.listChecked, selectedCategories);
 };
 
 ui.list.addEventListener('click', (event) => {
@@ -54,6 +54,6 @@ ui.list.addEventListener('click', (event) => {
 		}
 	});
 
-	render(ui.list, initialCategories);
-	render(ui.listChecked, selectedCategories);
+	renderList(ui.list, initialCategories);
+	renderList(ui.listChecked, selectedCategories);
 })();
